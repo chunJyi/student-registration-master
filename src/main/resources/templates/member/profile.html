@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+layout:decorate="~{/layout/template}">
+<head>
+    <meta charset="UTF-8">
+    <title>Member Profile</title>
+    <link rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/css/font-awesome.min.css}">
+</head>
+<body>
+<div layout:fragment="content" >
+    <div class="my-5">
+        <div th:if="${n}">
+            <p class="alert alert-danger col-md-8" role="alert">
+               <i class="fa fa-info-circle"></i> Can not Cancel!
+            </p>
+        </div>
+        <div class="col-lg-8 col-md-10 col-sm-12">
+            <div class="card" style=" background-color: #a5a5a594">
+                <form  th:object="${student}" class="card-body" method="post">
+                   <h3>Register Form</h3>
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input  class="form-control" disabled="disabled" placeholder="Enter Name" th:field="*{name}">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input  type="text" class="form-control" disabled="disabled"   placeholder="Enter phone" th:field="*{phNo}">
+                    </div>
+                    <div class="form-group">
+                        <label>City</label>
+                        <input  type="text" class="form-control"  disabled="disabled" placeholder="Enter Password" th:field="*{address.city}">
+                    </div>
+                    <div class="form-group">
+                        <label>street</label>
+                        <input  type="text" class="form-control" disabled="disabled"  placeholder="Enter Phone" th:field="*{address.street}">
+                    </div>
+                    <div class="form-group">
+                        <label>TownShip</label>
+                        <input  type="text" class="form-control" disabled="disabled" placeholder="Enter Phone" th:field="*{address.township}">
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <select class="form-control" disabled="disabled" th:field="*{gender}" id="gender">
+                            <option th:each="q:${T(com.spring.registration.model.entity.Gender).values()}" th:value="${q}" th:text="${q} "></option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="container">
+            <h3 class="mt-3 mb-3">Registraion History</h3>
+        </div>
+        <div>
+            <table class="table table-striped mt-4">
+                <tr>
+                    <td>Student Name</td>
+                    <td>Phone No</td>
+                    <td>Course</td>
+                    <td>Gender</td>
+                    <td sec:authorize="hasRole('MEMBER')">Remove</td>
+                </tr>
+                <tr th:each="p: ${myProfile}">
+                    <td th:text="${p.student.name}"></td>
+                    <td th:text="${p.student.phNo}"></td>
+                    <td th:text="${p.course.courseName}"></td>
+                    <td th:text="${p.student.gender.name()}"></td>
+                    <td sec:authorize="hasRole('MEMBER')">
+                        <a th:href="@{/deleteRegi/{id}(id=${p.id})}" >Cancel</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+<!--        <div class="navbar navbar-expand-lg  mb-5 ">-->
+<!--            <div class="container ">-->
+<!--                <div class="navbar-brand  text-primary float-right">-->
+<!--                    <i class="fa fa-home"></i> soft.company.l.m.t-->
+<!--                    <i class="fa fa-phone"></i> phone-->
+<!--                    <i class="fa fa-address-card"></i> address-->
+<!--                </div>-->
+<!--                <div class="navbar-nav ">-->
+<!--                    <span class="nav-link nav-item fa fa-2x fa-facebook "></span>-->
+<!--                    <span class="nav-link nav-item fa fa-2x fa-youtube "></span>-->
+<!--                    <span class="nav-link nav-item fa fa-2x fa-instagram "></span>-->
+<!--                    <span class="nav-link nav-item fa fa-2x fa-info-circle"></span>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--        </div>-->
+    </div>
+</div>
+<script th:src="@{/resources/js/jquery.min.js}"></script>
+<script th:src="@{/resources/js/popper.min.js}"></script>
+<script th:src="@{/resources/js/bootstrap.min.js}"></script>
+</body>
+</html>

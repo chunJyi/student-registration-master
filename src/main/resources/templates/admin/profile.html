@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/template}">
+<head>
+    <meta charset="UTF-8">
+    <title>RequestStudent</title>
+    <link rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/css/font-awesome.min.css}">
+
+</head>
+<body >
+<div layout:fragment="content" >
+    <div class="my-5 mx-4">
+        <div th:if="${accept}">
+            <p class="alert alert-success" role="alert">
+                Accept Student.
+            </p>
+        </div>
+        <div th:if="${remove}">
+            <p class="alert alert-danger" role="alert">
+                Cancel!Your Request.
+            </p>
+        </div>
+        <div>
+            <h3 class="text-center">Request Student</h3>
+            <table class="table table-striped mt-4">
+                <tr>
+                    <td>Student Name</td>
+                    <td>Phone No</td>
+                    <td>Course</td>
+                    <td>Gender</td>
+                    <td>Accept</td>
+                    <td>Remove</td>
+                </tr>
+                <tr th:each="p: ${register_student}">
+                    <td th:text="${p.student.name}"></td>
+                    <td th:text="${p.student.phNo}"></td>
+                    <td th:text="${p.course.courseName}"></td>
+                    <td th:text="${p.student.gender.name()}"></td>
+                    <td><a th:href="@{accept/{id}(id=${p.id})}">Accept</a></td>
+                    <td><a th:href="@{deleteStu/{id}(id=${p.id})}">remove</a></td>
+                </tr>
+            </table>
+        </div>
+
+<!--        <div class="navbar navbar-expand-lg  mb-5 ">-->
+<!--            <div class="container ">-->
+<!--                <div class="navbar-brand  text-primary float-right">-->
+<!--                    <i class="fa fa-home"></i> soft.company.l.m.t-->
+<!--                    <i class="fa fa-phone"></i> phone-->
+<!--                    <i class="fa fa-address-card"></i> address-->
+<!--                </div>-->
+<!--                <div class="navbar-nav ">-->
+<!--                    <span class="nav-link nav-item fa fa-2x fa-facebook "></span>-->
+<!--                    <span class="nav-link nav-item fa fa-2x fa-youtube "></span>-->
+<!--                    <span class="nav-link nav-item fa fa-2x fa-instagram "></span>-->
+<!--                    <span class="nav-link nav-item fa fa-2x fa-info-circle"></span>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--        </div>-->
+    </div>
+</div>
+<script th:src="@{/resources/js/jquery.min.js}"></script>
+<script th:src="@{/resources/js/popper.min.js}"></script>
+<script th:src="@{/resources/js/bootstrap.min.js}"></script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      layout:decorate="~{/layout/template}">
+<head>
+    <meta charset="UTF-8">
+    <title>Details</title>
+    <link rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/css/font-awesome.min.css}">
+
+</head>
+<body>
+
+<div layout:fragment="content" >
+    <div class="my-5" >
+        <div class="row mt-4 justify-content-center">
+            <div class="card ml-3 mb-5 col-md-10"   th:each="course: ${detail}">
+                <div class="card-header font-weight-bold text-danger">
+                    <span  th:text="${course.category.name}"></span>
+                </div>
+                <div class="card-title font-weight-bold">
+                    <div class="ml-3"><i class="fa fa-book"></i><span th:text="${course.courseName}"></span></div>
+                </div>
+                <div class="card-body">
+<!--                    <div><i class="fa fa-clock-o mr-2"></i><span th:text="|id:${course.id}|"></span></div>-->
+                    <div><i class="fa fa-money mr-2"></i><span th:text="|price:${#numbers.formatInteger(course.price, 3, 'COMMA')} MMK|"></span></div>
+                    <div><i class="fa fa-clock-o mr-2"></i><span th:text="|start:${course.startTime}|"></span></div>
+                    <div><i class="fa fa-clock-o mr-2"></i><span  th:text="|end:${course.endTime}|"></span></div>
+                    <div><i class="fa fa-id-card-o mr-2"></i><span  th:text="|About:${course.about}|"></span></div>
+                    <div><i class="fa fa-calendar-times-o mr-2"></i><span  th:text="|start:${course.start}|"></span></div>
+                    <div><i class="fa fa-user mr-2"></i><span  th:text="|limit:${course.count} students|"></span></div>
+                </div>
+                <div class="card-footer">
+                    <div>
+                        <a  class="confirmRegi btn btn-outline-dark text-danger" sec:authorize="hasRole('MEMBER')">Register</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div layout:fragment="popups3" id="editDialog" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger">Are You Register?</h5>
+            </div>
+            <div class="modal-body" th:each="course: ${detail}">
+                <a th:href="@{/register/{id}(id=${course.id})}" class="btn btn-outline-dark" sec:authorize="hasRole('MEMBER')">Register</a>
+                <a th:href="@{/}" class="btn btn-outline-dark" sec:authorize="hasRole('MEMBER')">Cancel</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/resources/js/jquery.min.js}"></script>
+<script th:src="@{/resources/js/popper.min.js}"></script>
+<script th:src="@{/resources/js/bootstrap.min.js}"></script>
+</body>
+</html>

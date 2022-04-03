@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+	<title layout:title-pattern="$LAYOUT_TITLE | $CONTENT_TITLE" >Registration</title>
+	
+	<link rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}" >
+	<link rel="stylesheet" th:href="@{/resources/css/font-awesome.min.css}">
+	<link rel="title icon" type="images/png" href="http://localhost/images/logo.png" >
+
+	<script type="text/javascript" defer th:src="@{/resources/js/jquery.min.js}"></script>
+	<script type="text/javascript" defer th:src="@{/resources/js/popper.min.js}"></script>
+	<script type="text/javascript" defer th:src="@{/resources/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" defer th:src="@{/resources/js/common.js}"></script>
+	<style>
+		#input{
+			background-color: transparent;
+			border-radius: 0;
+			border: none;
+			border-bottom: 2px solid #200000;
+			transition: all .4s;
+		}
+		#input:focus{
+			background-color: transparent;
+			box-shadow: none;
+			border-bottom: 2px solid blue;
+		}
+
+		#bb{
+			border-radius: 50%;
+			padding: 5px 10px;
+		}
+		.sidebar{
+			height: 100vh;
+			box-shadow: 7px 9px 28px #1d2124;
+		}
+		#bottom-line{
+			border-bottom: 1px solid black;
+		}
+
+	</style>
+
+</head>
+	<body style=" background-image: url('http://localhost/images/bg1.jpeg');
+            background-repeat: no-repeat;
+           background-size: cover;
+           background-attachment: fixed;">
+		<div>
+			<nav class="navbar navbar-expand-md navbar-light">
+			<button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#my">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse " id="my">
+				<div class="container-fluid">
+					<div class="row">
+					<!--siderbar-->
+						<div class="col-sm-3 col-lg-2 sidebar bg-warning  fixed-top">
+							<a th:href="@{/}" class="navbar-brand  my-4 text-black-50 fa fa-user " id="bottom-line" style="font-size:32px"> Register</a>
+							<div class="navbar nav" style="font-size: 20px">
+								<div class="nav-item dropdown my-2 my-lg-0"  sec:authorize="hasRole('ADMIN')">
+									<a class="nav-link dropdown-toggle text-info text-capitalize font-weight-bold" id="navDropDown" data-toggle="dropdown">
+										<i class="fa fa-user-circle-o text-dark "></i>Open Class
+									</a>
+									<div class="dropdown-menu">
+										<div th:each="c : ${courses}">
+											<a  class="dropdown-item" th:href="@{/student/{id}(id=${c.id})}"
+												th:text="${c.courseName}" />
+										</div>
+									</div>
+								</div>
+								<div class="nav-item dropdown my-2 my-lg-0"  sec:authorize="hasRole('MEMBER')">
+									<a class="nav-link dropdown-toggle text-info text-capitalize font-weight-bold" id="navDropDown" data-toggle="dropdown">
+										<i class="fa fa-user-circle-o text-dark "></i>Opening Class
+									</a>
+									<div class="dropdown-menu">
+										<div th:each="c : ${openCourses}">
+											<a  class="dropdown-item" th:href="@{/detail/{id}(id=${c.id})}"
+												th:text="${c.courseName}" />
+										</div>
+									</div>
+								</div>
+								<div class="nav-item" sec:authorize="hasRole('ADMIN')">
+									<a th:href="@{/}" class="nav-link   text-capitalize font-weight-bold" >
+										<i class="fa fa-home text-dark my-2"></i> Home
+									</a>
+								</div>
+								<div class="" sec:authorize="hasRole('MEMBER')">
+									<a th:href="@{/}" class="nav-item nav-link   text-capitalize font-weight-bold" >
+										<i class="fa fa-home text-dark my-2"></i> Home
+									</a>
+								</div>
+								<div class="nav-item" sec:authorize="hasRole('MEMBER')">
+									<a th:href="@{/memberProfile}" class="nav-link text-capitalize font-weight-bold" >
+										<i class="fa fa-user-secret text-dark my-2"></i> History
+									</a>
+								</div>
+								<div class="nav-item" sec:authorize="hasRole('ADMIN')">
+									<a th:href="@{/acceptProfile}" class="nav-link text-capitalize font-weight-bold" >
+										<i class="fa fa-user-secret text-dark my-2"></i> Student
+									</a>
+								</div>
+								<div class="nav-item" sec:authorize="hasRole('ADMIN')">
+									<a th:href="@{/infoForm}" class="nav-link   text-capitalize font-weight-bold">
+										<i class="fa fa-info-circle text-dark my-2"></i> AdminInfo
+									</a>
+								</div>
+								<div class="nav-item" sec:authorize="hasRole('ADMIN')">
+									<a th:href="@{course/course}" class="nav-link   text-capitalize font-weight-bold">
+										<i class="text-dark fa fa-plus-circle my-2"></i>Add Course</a>
+								</div>
+								<div class="nav-item" sec:authorize="hasRole('ADMIN')">
+									<a th:href="@{/requestProfile}" class="nav-link text-capitalize font-weight-bold" >
+										<i class="fa fa-send text-dark my-2"></i> Request
+									</a>
+								</div>
+								<div class="nav-item" sec:authorize="hasRole('ADMIN')">
+									<a th:href="@{/category}" class=" nav-link   text-capitalize font-weight-bold" >
+										<i class="fa fa-list-alt text-dark my-2"></i> Category
+									</a>
+								</div>
+								<div class="nav-item" sec:authorize="hasRole('ADMIN')">
+									<a th:href="@{/course}" class="nav-link   text-capitalize font-weight-bold" >
+										<i class="fa fa-clipboard text-dark my-2"></i> Course
+									</a>
+								</div>
+								<div  th:each="in:${admininfo}" >
+									<div class="fixed-bottom col-2">
+										<a class="nav-link nav-item fa fa-2x fa-facebook float-right mr-3" th:href="@{${in.facebook}}"></a>
+										<a class="nav-link nav-item fa fa-2x fa-youtube float-right" th:href="@{${in.youtube}}"></a>
+										<a class="nav-link nav-item fa fa-2x fa-instagram float-right" th:href="@{${in.instagram}}"></a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--end of siderbar-->
+						<!--top bar-->
+						<div class="col-sm-9 col-lg-10 ml-auto  fixed-top top-navbar bg-light" >
+							<nav class="navbar navbar-expand-sm text-uppercase font-weight-bold justify-content-between"   style="background-color: transparent">
+								<div class="row">
+									<div class="col-lg-8">
+									<form class="form-inline md-form form-sm mt-0" th:action="@{/course/findCategoryName}" method="post">
+										<button class="btn btn-info fa fa-search form-control" id="bb"></button>
+										<input class="form-control form-control-sm  w-50 "  id="input" name="name" type="text" placeholder="Search"
+										aria-label="Search">
+									</form>
+									</div>
+									<div class="col-lg-4">
+										<a th:href="@{/requestProfile}" class="nav-link" sec:authorize="hasRole('ADMIN')">
+											<i class="fa fa-bell"></i><span th:text="${look}"></span>
+										</a>
+									</div>
+								</div>
+								<div   >
+									<div class="navbar-nav float-right ">
+										<a th:href="@{/login}" class="nav-item nav-link text-capitalize font-weight-bold text-dark" sec:authorize="isAnonymous()"   >
+											<i class="fa fa-sign-in fa-2x"></i>
+										</a>
+										<a th:href="@{/sign-up}"class="nav-item nav-link text-capitalize font-weight-bold  text-dark"  sec:authorize="isAnonymous()" >
+											<i class="fa fa-user-plus fa-2x"></i>
+										</a>
+										<a th:href="@{/doLogout}" class="nav-item nav-link text-capitalize font-weight-bold  text-dark" sec:authorize="isAuthenticated()">
+											<i class="fa fa-sign-out fa-2x"></i>
+										</a>
+									</div>
+									<div class="navbar-brand  text-primary " th:each="in:${admininfo}">
+										<i class="fa fa-home mr-2 text-uppercase font-weight-bold" th:text="| ${in.school}|"></i>
+										<i class="fa fa-phone mr-2 text-uppercase font-weight-bold" th:text="| ${in.phone}|"></i>
+										<i class="fa fa-address-book-o mr-2 text-uppercase font-weight-bold" th:text="| ${in.address}|"></i>
+									</div>
+								</div>
+							</nav>
+						</div>
+						<!--end of top bar-->
+					</div>
+				</div>
+			</div>
+		</nav>
+		</div>
+		<div>
+			<div class="container-fluid">
+				<div class="row">
+						<div layout:fragment="content" class="col-lg-10  ml-auto my-5 mx-3"></div>
+				</div>
+			</div>
+		</div>
+		<div layout:fragment="popups"></div>
+		<div layout:fragment="popups2"></div>
+		<div layout:fragment="popups3"></div>
+</body>
+</html>

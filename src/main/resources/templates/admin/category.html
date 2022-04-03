@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+        layout:decorate="~{/layout/template.html}" >
+<head>
+    <meta charset="UTF-8">
+    <title>Category</title>
+</head>
+<body
+>
+
+<div layout:fragment="content">
+
+    <h3 class="my-5 mx-4">Category Management</h3>
+
+    <form class="form-inline mb-4 mx-4"  enctype="multipart/form-data" th:action="@{/category}" th:object="${category}" method="post" >
+        <input type="hidden" th:field="*{id}">
+        <label class="mr-3">Category</label>
+        <input class="form-control mr-3 " th:field="*{name}"  placeholder="Enter Category Name" required="required" >
+        <input type="file" class=" mr-3" name="files" multiple required />
+        <input type="submit" value="Add New" class="btn btn-outline-secondary">
+        <a th:href="@{/find}" class="btn btn-outline-primary ml-3">show </a>
+    </form>
+
+
+    <div class="card-columns " th:if="${not #lists.isEmpty(categories)}" >
+
+        <div class="card bg-info text-white" th:each="cat : ${categories}">
+            <div class="card-body">
+                <span th:text="${cat.name}">Name</span>
+                <a th:href="@{edit/{id}(id=${cat.id})}"><i class="text-white float-right  fa fa-edit"></i></a>
+                <a th:href="@{delete/{id}(id=${cat.id})}"><i class="text-white float-right fa fa-trash mr-3"></i></a>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      layout:decorate="~{/layout/template}">
+<head>
+    <meta charset="UTF-8">
+    <title>Course</title>
+    <link rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/css/font-awesome.min.css}">
+    <style>
+        #c{
+            box-shadow: 10px 20px 4px 0px rgba(177, 139, 139, 0.42);
+        }
+    </style>
+</head>
+<body
+>
+
+<div layout:fragment="content">
+    <div class="my-5">
+
+    </div>
+
+
+
+    <div class="row mt-4 justify-content-center">
+        <div id="c" class="card ml-3 mb-5 border-warning border-5  " style="width: 15rem; background-color:#cacaca"   th:each="course: ${courses}">
+            <div class="card-img-top">
+                <img th:src="@{${course.category.location}}"class="card-img img-thumbnail" style="height: 170px"></img>
+            </div>
+            <div class="card-body border-dark">
+                <div><span class="card-title fa fa-clipboard" th:text="| Course :${course.courseName}|"></span></div>
+                <div><span class="card-title fa fa-dollar" th:text="| Price :${#numbers.formatInteger(course.price, 3, 'COMMA')} MMK|"></span></div>
+                <div><span class="card-title fa fa-clock-o" th:text="| Start Time :${course.startTime}|"></span></div>
+                <div><span class="card-title fa fa-clock-o" th:text="| End Time   :${course.endTime}|"></span></div>
+            </div>
+            <div class="card-footer ">
+<!--                <span th:text="${course.category.name}"></span>-->
+                <span class="float-right" ><a th:href="@{detail/{id}(id=${course.id})}" class="btn btn-outline-dark mr-2">details</a>
+                <a th:href="@{course/edit/{id}(id=${course.id})}" class="btn btn-outline-dark" sec:authorize="hasRole('ADMIN')">edit</a></span>
+<!--                <a th:href="@{course/delete/{id}(id=${course.id})}" class="btn btn-outline-dark" sec:authorize="hasRole('ADMIN')">delete</a></span>-->
+
+                <!--                <span class="float-right" th:text="|${#numbers.formatInteger(course.price, 3, 'POINT')} MMK|"></span>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/resources/js/jquery.min.js}"></script>
+<script th:src="@{/resources/js/popper.min.js}"></script>
+<script th:src="@{/resources/js/bootstrap.min.js}"></script>
+</body>
+</html>

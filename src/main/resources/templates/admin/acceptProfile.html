@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/template}">
+<head>
+    <meta charset="UTF-8">
+    <title>Student</title>
+    <link rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/css/font-awesome.min.css}">
+
+</head>
+<body >
+<div layout:fragment="content">
+    <div class="my-5 mx-4">
+        <div th:if="${remove}">
+            <p class="alert alert-danger" role="alert">
+                Cancel! Your student.
+            </p>
+        </div>
+        <h3 class="text-center">Register</h3>
+        <div>
+            <table class="table table-striped mt-4">
+                <tr>
+                    <td>Student Name</td>
+                    <td>Phone No</td>
+                    <td>Course</td>
+                    <td>Gender</td>
+                    <td>Accept</td>
+                    <td>Info</td>
+                </tr>
+                <tr th:each="p: ${accept_student}">
+                    <td th:text="${p.student.name}"></td>
+                    <td th:text="${p.student.phNo}"></td>
+                    <td th:text="${p.course.courseName}"></td>
+                    <td th:text="${p.student.gender.name()}"></td>
+                    <td><a th:href="@{remove/{id}(id=${p.id})}">remove</a></td>
+                    <td><a th:href="@{/info/{id}(id=${p.student.id})}">info</a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<script th:src="@{/resources/js/jquery.min.js}"></script>
+<script th:src="@{/resources/js/popper.min.js}"></script>
+<script th:src="@{/resources/js/bootstrap.min.js}"></script>
+</body>
+</html>
